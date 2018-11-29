@@ -11,6 +11,7 @@
  * Based on drivers/usb/gadget/f_audio.c,
  *   Copyright (C) 2008 Bryan Wu <cooloney@kernel.org>
  *   Copyright (C) 2008 Analog Devices, Inc
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * and drivers/usb/gadget/midi.c,
  *   Copyright (C) 2006 Thumtronics Pty Ltd.

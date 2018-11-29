@@ -2,6 +2,7 @@
  *  linux/kernel/fork.c
  *
  *  Copyright (C) 1991, 1992  Linus Torvalds
+ * Copyright (C) 2018 XiaoMi, Inc.
  */
 
 /*
@@ -79,6 +80,8 @@
 #include <linux/sysctl.h>
 #include <linux/kcov.h>
 #include <linux/cpufreq_times.h>
+
+#include <linux/rtmm.h>
 
 #include <asm/pgtable.h>
 #include <asm/pgalloc.h>

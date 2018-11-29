@@ -22,6 +22,7 @@
  *  Requeue-PI support by Darren Hart <dvhltc@us.ibm.com>
  *  Copyright (C) IBM Corporation, 2009
  *  Thanks to Thomas Gleixner for conceptual design and careful reviews.
+ *  Copyright (C) 2018 XiaoMi, Inc.
  *
  *  Thanks to Ben LaHaise for yelling "hashed waitqueues" loudly
  *  enough at me, Linus for the original (flawed) idea, Matthew
@@ -666,14 +667,13 @@ again:
 		 * this reference was taken by ihold under the page lock
 		 * pinning the inode in place so i_lock was unnecessary. The
 		 * only way for this check to fail is if the inode was
-		 * truncated in parallel which is almost certainly an
-		 * application bug. In such a case, just retry.
+		 * truncated in parallel so warn for now if this happens.
 		 *
 		 * We are not calling into get_futex_key_refs() in file-backed
 		 * cases, therefore a successful atomic_inc return below will
 		 * guarantee that get_futex_key() will still imply smp_mb(); (B).
 		 */
-		if (!atomic_inc_not_zero(&inode->i_count)) {
+		if (WARN_ON_ONCE(!atomic_inc_not_zero(&inode->i_count))) {
 			rcu_read_unlock();
 			put_page(page_head);
 

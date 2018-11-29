@@ -4,6 +4,7 @@
  * Copyright (c) 2002 James Morris <jmorris@intercode.com.au>
  * Copyright (c) 2002 David S. Miller (davem@redhat.com)
  * Copyright (c) 2005 Herbert Xu <herbert@gondor.apana.org.au>
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * Portions derived from Cryptoapi, by Alexander Kjeldaas <astor@fast.no>
  * and Nettle, by Niels Möller.

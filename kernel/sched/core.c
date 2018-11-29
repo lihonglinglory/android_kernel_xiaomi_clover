@@ -4,6 +4,7 @@
  *  Kernel scheduler and related syscalls
  *
  *  Copyright (C) 1991-2002  Linus Torvalds
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  *  1996-12-23  Modified by Dave Grothe to fix bugs in semaphores and
  *		make semaphores SMP safe
@@ -1715,6 +1716,10 @@ int select_task_rq(struct task_struct *p, int cpu, int sd_flags, int wake_flags,
 {
 	bool allow_isolated = (p->flags & PF_KTHREAD);
 
+#ifdef CONFIG_CPUSET_EXCLUSIVE_IND
+	cpuset_mask_cpu_exclusive(p);
+#endif
+
 	lockdep_assert_held(&p->pi_lock);
 
 	if (p->nr_cpus_allowed > 1)
@@ -2357,6 +2362,9 @@ static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
 #endif
 
 	INIT_LIST_HEAD(&p->se.group_node);
+#ifdef CONFIG_PACKAGE_RUNTIME_INFO
+	init_task_runtime_info(p);
+#endif
 
 #ifdef CONFIG_FAIR_GROUP_SCHED
 	p->se.cfs_rq			= NULL;
