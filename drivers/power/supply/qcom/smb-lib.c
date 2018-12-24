@@ -2407,6 +2407,18 @@ static int smblib_dm_pulse(struct smb_charger *chg)
 	return rc;
 }
 
+static int smblib_force_vbus_voltage(struct smb_charger *chg, u8 val)
+{
+      int rc;	
+ 
+  	  rc = smblib_masked_write(chg, CMD_HVDCP_2_REG, val, val);	
+ 	  if (rc < 0)	
+              smblib_err(chg, "Couldn't write to CMD_HVDCP_2_REG rc=%d\n",	
+    			              rc);	
+
+   	return rc;	
+}
+
 #define MAX_PLUSE_COUNT_ALLOWED		7
 #define HOT_THERMAL_LEVEL_TRH		12
 int smblib_dp_dm(struct smb_charger *chg, int val)
@@ -4256,6 +4268,8 @@ void smblib_usb_plugin_locked(struct smb_charger *chg)
 		rc = smblib_request_dpdm(chg, true);
 		if (rc < 0)
 			smblib_err(chg, "Couldn't to enable DPDM rc=%d\n", rc);
+		if (chg->fcc_stepper_mode)
+ 			vote(chg->fcc_votable, FCC_STEPPER_VOTER, false, 0);
 
 		if (get_client_vote_locked(chg->usb_icl_votable, USER_VOTER) != 0) {
 			rc = smblib_set_usb_suspend(chg, false);
@@ -5078,6 +5092,7 @@ static void smblib_handle_typec_removal(struct smb_charger *chg)
 	/* reset hvdcp voters */
 	vote(chg->hvdcp_disable_votable_indirect, VBUS_CC_SHORT_VOTER, true, 0);
 	vote(chg->hvdcp_disable_votable_indirect, PD_INACTIVE_VOTER, true, 0);
+	vote(chg->hvdcp_hw_inov_dis_votable, OV_VOTER, false, 0);
 	if (chg->use_usbmid)
 		vote(chg->hvdcp_hw_inov_dis_votable, UNSTANDARD_QC2_VOTER, false, 0);
 
@@ -5097,6 +5112,9 @@ static void smblib_handle_typec_removal(struct smb_charger *chg)
 	vote(chg->pl_disable_votable, PL_HIGH_CAPACITY_VOTER, false, 0);
 	vote(chg->pl_disable_votable, PL_LOW_ICL_VOTER, false, 0);
 	vote(chg->awake_votable, PL_DELAY_VOTER, false, 0);
+
+	vote(chg->usb_icl_votable, USBIN_USBIN_BOOST_VOTER, false, 0);
+
 	/* clear chg_awake wakeup source when typec removal */
 	vote(chg->awake_votable, CHG_AWAKE_VOTER, false, 0);
 	vote(chg->chg_disable_votable, DEFAULT_VOTER, false, 0);

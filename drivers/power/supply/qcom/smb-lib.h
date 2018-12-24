@@ -79,6 +79,9 @@ enum print_reason {
 #define OTG_DELAY_VOTER			"OTG_DELAY_VOTER"
 #define USBIN_I_VOTER			"USBIN_I_VOTER"
 #define WEAK_CHARGER_VOTER		"WEAK_CHARGER_VOTER"
+#define WBC_VOTER			"WBC_VOTER"
+#define OV_VOTER			"OV_VOTER"
+#define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
 #define CHG_AWAKE_VOTER			"CHG_AWAKE_VOTER"
 #define MAIN_ICL_BEFORE_DUAL_CHARGE		"MAIN_ICL_BEFORE_DUAL_CHARGE"
 #define PL_HIGH_CAPACITY_VOTER			"PL_HIGH_CAPACITY_VOTER"
@@ -403,6 +406,7 @@ struct smb_charger {
 	u8			float_cfg;
 	bool			use_extcon;
 	bool			otg_present;
+	bool			fcc_stepper_mode;
 	bool			boost_charge_support;
 	bool			otg_icl_setted;
 	bool			ibat_high_first_check;
@@ -416,6 +420,7 @@ struct smb_charger {
 	u32			wa_flags;
 	bool			cc2_detach_wa_active;
 	bool			typec_en_dis_active;
+	bool			try_sink_active;
 	bool			unstandard_qc_detected;
 	bool			cc_float_detected;
 	bool			soft_charge_done;
@@ -618,6 +623,7 @@ int smblib_get_prop_from_bms(struct smb_charger *chg,
 				union power_supply_propval *val);
 int smblib_set_prop_pr_swap_in_progress(struct smb_charger *chg,
 				const union power_supply_propval *val);
+void smblib_usb_typec_change(struct smb_charger *chg);
 int smblib_set_prop_rerun_apsd(struct smb_charger *chg,
 				const union power_supply_propval *val);
 

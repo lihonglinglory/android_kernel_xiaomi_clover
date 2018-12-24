@@ -46,6 +46,7 @@ extern int cpuset_init(void);
 extern void cpuset_init_smp(void);
 extern void cpuset_force_rebuild(void);
 extern void cpuset_update_active_cpus(bool cpu_online);
+extern void cpuset_wait_for_hotplug(void);
 #ifdef CONFIG_CPUSET_EXCLUSIVE_IND
 extern void cpuset_mask_cpu_exclusive(struct task_struct *tsk);
 #endif

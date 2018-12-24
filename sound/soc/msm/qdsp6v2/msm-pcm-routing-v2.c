@@ -84,6 +84,7 @@ static int msm_route_ext_ec_ref;
 static bool is_custom_stereo_on;
 static bool is_ds2_on;
 static bool swap_ch;
+static int msm_native_mode;
 static int voice_ext_ec_ref;
 static int voip_ext_ec_ref;
 

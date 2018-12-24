@@ -3776,7 +3776,6 @@ int afe_loopback(u16 enable, u16 rx_port, u16 tx_port)
 	struct afe_loopback_cfg_v1 lb_param = {0};
 	struct param_hdr_v3 param_hdr = {0};
 	int ret = 0;
-	int index = 0;
 	pr_debug("%s:  enter !!!rx_port[0x%x],    tx_port id[0x%x]\n",
 		__func__, rx_port, tx_port);
 

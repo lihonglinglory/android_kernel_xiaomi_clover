@@ -497,7 +497,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 		}
 		tasksize = get_mm_rss(p->mm);
 #if defined(CONFIG_ZRAM)
-		zs_get_page_usage(&total_pool_pages, &total_ori_pages);
 		if (total_pool_pages && total_ori_pages) {
 			lowmem_print(3, "tasksize : %d\n", tasksize);
 			tasksize += (int)total_pool_pages *

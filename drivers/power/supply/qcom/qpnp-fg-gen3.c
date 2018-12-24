@@ -5549,6 +5549,9 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	INIT_WORK(&chip->status_change_work, status_change_work);
 	INIT_DELAYED_WORK(&chip->ttf_work, ttf_work);
 	INIT_DELAYED_WORK(&chip->sram_dump_work, sram_dump_work);
+	INIT_WORK(&chip->esr_filter_work, esr_filter_work);
+	alarm_init(&chip->esr_filter_alarm, ALARM_BOOTTIME,
+			fg_esr_filter_alarm_cb);
 	INIT_DELAYED_WORK(&chip->soc_work, soc_work_fn);
 	INIT_DELAYED_WORK(&chip->empty_restart_fg_work, empty_restart_fg_work);
 

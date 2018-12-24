@@ -3840,6 +3840,11 @@ static struct attribute *usbpd_attrs[] = {
 	&dev_attr_rdo.attr,
 	&dev_attr_rdo_h.attr,
 	&dev_attr_hard_reset.attr,
+	&dev_attr_get_src_cap_ext.attr,
+	&dev_attr_get_pps_status.attr,
+	&dev_attr_rx_ado.attr,
+	&dev_attr_get_battery_cap.attr,
+	&dev_attr_get_battery_status.attr,
 	&dev_attr_pd_vbus.attr,
 	NULL,
 };

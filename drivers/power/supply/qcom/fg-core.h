@@ -469,6 +469,8 @@ struct fg_chip {
 	bool			esr_flt_cold_temp_en;
 	bool			slope_limit_en;
 	bool			use_ima_single_mode;
+	bool			qnovo_enable;
+	bool			suspended;
 	bool			report_full;
 	bool			empty_restart_fg;
 	struct completion	soc_update;
@@ -479,6 +481,9 @@ struct fg_chip {
 	struct delayed_work	sram_dump_work;
 	struct delayed_work	soc_work;
 	struct delayed_work	empty_restart_fg_work;
+	struct work_struct	esr_filter_work;
+	struct alarm		esr_filter_alarm;
+	ktime_t			last_delta_temp_time;
 };
 
 /* Debugfs data structures are below */

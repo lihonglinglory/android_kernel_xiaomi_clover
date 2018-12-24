@@ -189,6 +189,11 @@ static int __weak_chg_icl_ua = 700000;
 module_param_named(
 	weak_chg_icl_ua, __weak_chg_icl_ua, int, S_IRUSR | S_IWUSR);
 
+static int __try_sink_enabled = 1;
+module_param_named(
+      try_sink_enabled, __try_sink_enabled, int, 0600
+);
+
 #define MICRO_1P5A		1250000
 #define MICRO_P1A		100000
 #define OTG_DEFAULT_DEGLITCH_TIME_MS	50
@@ -440,6 +445,9 @@ static int smb2_parse_dt(struct smb2 *chip)
 					&chg->otg_delay_ms);
 	if (rc < 0)
 		chg->otg_delay_ms = OTG_DEFAULT_DEGLITCH_TIME_MS;
+
+    chg->fcc_stepper_mode = of_property_read_bool(node,
+                                    "qcom,fcc-stepping-enable");
 
 	if (chg->boost_charge_support) {
 		chg->boost_en_gpio = of_get_named_gpio(node, "qcom,boost-en", 0);
@@ -1093,6 +1101,9 @@ static enum power_supply_property smb2_batt_props[] = {
 	POWER_SUPPLY_PROP_RERUN_AICL,
 	POWER_SUPPLY_PROP_DP_DM,
 	POWER_SUPPLY_PROP_CHARGE_COUNTER,
+ 	POWER_SUPPLY_PROP_FCC_STEPPER_ENABLE,
+ 	POWER_SUPPLY_PROP_CHARGE_FULL,
+ 	POWER_SUPPLY_PROP_CYCLE_COUNT,
 	POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
 	POWER_SUPPLY_PROP_CHARGER_TYPE,
 };
